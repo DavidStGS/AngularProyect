@@ -1,7 +1,6 @@
 <div class="card-content">
     <div class="card-img">
-        <img src="https://cloudfront-us-east-1.images.arcpublishing.com/semana/Z5RLVOS6FZBTLJCUUXSJKVHQU4.jpg"
-            alt="image">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/20160806-DSCF1573-BalTone.jpg" alt="image">
         <span>
             <h4>{{posicion}}</h4>
         </span>
@@ -11,7 +10,7 @@
         <p>Servicios</p>
         <ul class="mb-5">
             <li *ngFor="let servicio of destino.servicios">
-                <span>
+                <span [ngSwitch]="servicio">
             <li *ngSwitchCase="'Desayuno'" style="color: brown;">{{servicio}}</li>
             <li *ngSwitchCase="'Almuerzo'" style="color: blue;">{{servicio}}</li>
             <li *ngSwitchDefault>{{servicio}}</li>
