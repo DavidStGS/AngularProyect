@@ -1,0 +1,27 @@
+<div class="card-content">
+    <div class="card-img">
+        <img src="https://cloudfront-us-east-1.images.arcpublishing.com/semana/Z5RLVOS6FZBTLJCUUXSJKVHQU4.jpg"
+            alt="image">
+        <span>
+            <h4>{{posicion}}</h4>
+        </span>
+    </div>
+    <div class="card-desc">
+        <h3>{{destino.nombre}}</h3>
+        <p>Servicios</p>
+        <ul class="mb-5">
+            <li *ngFor="let servicio of destino.servicios">
+                <span>
+            <li *ngSwitchCase="'Desayuno'" style="color: brown;">{{servicio}}</li>
+            <li *ngSwitchCase="'Almuerzo'" style="color: blue;">{{servicio}}</li>
+            <li *ngSwitchDefault>{{servicio}}</li>
+            </span>
+            </li>
+        </ul>
+        <a href="#" class="btn-card" (click)="ir()">Read</a>
+        <a href="/destinos" class="ms-2">Ver destino</a>
+        <span *ngIf="destino.isSelected()" class="badge bg-primary ms-2 style-prefers">
+            <span ngNonBindable>Preferido</span>
+        </span>
+    </div>
+</div>
