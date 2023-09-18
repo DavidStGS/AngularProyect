@@ -1,21 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, OnInit, } from '@angular/core';
 import { DestinoViajes } from '../model/destino-viajes.model';
 
 @Component({
   selector: 'app-lista-viajes',
   templateUrl: './lista-viajes.component.html',
-  styleUrls: ['./lista-viajes.component.css']
+  styleUrls: ['./lista-viajes.component.css'],
+
 })
+
 export class ListaViajesComponent {
+
   destinos: DestinoViajes[];
 
   constructor() {
     this.destinos = []
   }
 
-  guardar(nombre: string, url: string): boolean {
-    this.destinos.push(new DestinoViajes(nombre, url));
-    return false;
+  agregado(d: DestinoViajes) {
+    this.destinos.push(d);
   }
 
   elegir(ifSelected: DestinoViajes) {
