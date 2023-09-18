@@ -18,11 +18,14 @@ export class FormDestinoVieajesComponent {
       nombre: [''],
       url: ['']
     });
+    this.formulario.valueChanges.subscribe((form: any) => {
+      console.log('cambio el formulario: ', form);
+    });
   }
-
   guardar(nombre: string, url: string): boolean {
     let d = new DestinoViajes(nombre, url);
     this.onItemAdded.emit(d);
     return false;
   }
 }
+
