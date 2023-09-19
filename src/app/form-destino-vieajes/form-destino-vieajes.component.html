@@ -1,19 +1,15 @@
-<form [formGroup]="formulario"
-    (ngSubmit)="guardar(formulario.controls['nombre'].value, formulario.controls['url'].value)">
+<form [formGroup]="fb" (ngSubmit)="guardar(fb.controls['nombre'].value, fb.controls['url'].value)">
     <div class="form-group">
         <label for="nombre" class="style-labels">Nombre</label>
         <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Ingresar nombre..." />
-        <div *ngIf="formulario.get('nombre')!.invalid && formulario.get('nombre')!.touched" class="alert alert-danger">
-            El nombre es requerido.
-        </div>
+        <div *ngIf="!fb.controls['nombre'].valid">Nombre Invalido!</div>
+        <div *ngIf="fb.controls['nombre'].hasError('requerida')">Nombre Invalido!</div>
     </div>
+
     <div class="form-group">
         <label for="image-url" class="style-labels">Imagen Url</label>
         <input type="text" class="form-control" id="image-url" formControlName="url"
             placeholder="Ingrese la url de la imagen..." />
-        <div *ngIf="formulario.get('url')!.invalid && formulario.get('url')!.touched" class="alert alert-danger">
-            La URL de la imagen es requerida.
-        </div>
     </div>
-    <button type="submit" class="btn btn-primary styles-guardar">Guardar</button>
+    <button type="submit" class="btn btn-primary styles-guardar" *ngIf="fb.valid">Guardar</button>
 </form>
