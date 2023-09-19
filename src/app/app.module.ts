@@ -9,6 +9,8 @@ import { ListaViajesComponent } from './lista-viajes/lista-viajes.component';
 import { DestinoViajesComponent } from './destino-viajes/destino-viajes.component';
 import { DestinoComponent } from './destino/destino.component';
 import { FormDestinoVieajesComponent } from './form-destino-vieajes/form-destino-vieajes.component';
+import { DestinoApiModel } from './model/destino-api.model';
+
 
 const rutas: Routes = [
   { path: '', component: ListaViajesComponent },
@@ -30,7 +32,11 @@ const rutas: Routes = [
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    DestinoApiModel
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }

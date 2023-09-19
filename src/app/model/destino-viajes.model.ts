@@ -5,6 +5,7 @@ export class DestinoViajes {
 
     constructor(public nombre: string, public imageUrl: string) {
         this.servicios = ['Desayuno', 'Almuerzo', 'Merienda']
+        this.selected = false;
     }
 
     isSelected(): boolean {
@@ -14,4 +15,5 @@ export class DestinoViajes {
     setSelected(ifSelected: boolean) {
         this.selected = ifSelected;
     }
+
 }

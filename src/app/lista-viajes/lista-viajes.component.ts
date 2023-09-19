@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, } from '@angular/core';
 import { DestinoViajes } from '../model/destino-viajes.model';
+import { DestinoApiModel } from '../model/destino-api.model';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -10,20 +11,25 @@ import { DestinoViajes } from '../model/destino-viajes.model';
 
 export class ListaViajesComponent {
 
-  destinos: DestinoViajes[];
+  @Output() onItemAdded: EventEmitter<DestinoViajes>;
+  //destinos: DestinoViaje[];
 
-  constructor() {
-    this.destinos = []
+  constructor(public DestinoApiModel: DestinoApiModel) {
+    this.onItemAdded = new EventEmitter();
   }
+
 
   agregado(d: DestinoViajes) {
-    this.destinos.push(d);
+    this.DestinoApiModel.add(d);
+    this.onItemAdded.emit(d);
   }
 
-  elegir(ifSelected: DestinoViajes) {
-    this.destinos.forEach((destino) => {
-      destino.setSelected(false);
-    });
-    ifSelected.setSelected(true);
+  elegido(e: DestinoViajes) {
+    //desmarcar todos los demas en en array de elegidos
+    //this.destinos.forEach(function (x) {x.setSelected(false); });
+    //se marca el elegido
+    //d.setSelected(true);
+    this.DestinoApiModel.getAll().forEach(x => x.setSelected(false));
+    e.setSelected(true);
   }
 }

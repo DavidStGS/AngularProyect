@@ -7,6 +7,7 @@ import { DestinoViajes } from '../model/destino-viajes.model';
   styleUrls: ['./destino-viajes.component.css']
 })
 export class DestinoViajesComponent {
+
   @Input() destino!: DestinoViajes;
   @Input('idx') posicion!: number;
   @HostBinding('class') cssClass = 'col-md-4 pb-4';
