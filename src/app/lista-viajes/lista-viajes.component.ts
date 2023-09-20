@@ -6,30 +6,44 @@ import { DestinoApiModel } from '../model/destino-api.model';
   selector: 'app-lista-viajes',
   templateUrl: './lista-viajes.component.html',
   styleUrls: ['./lista-viajes.component.css'],
-
 })
 
-export class ListaViajesComponent {
+export class ListaViajesComponent implements OnInit {
 
   @Output() onItemAdded: EventEmitter<DestinoViajes>;
-  //destinos: DestinoViaje[];
+  destinos: DestinoViajes[];
+
+  ultimaSuscripcion: string;
 
   constructor(public DestinoApiModel: DestinoApiModel) {
     this.onItemAdded = new EventEmitter();
+    this.destinos = [];
+    this.ultimaSuscripcion = '';
   }
 
+  ngOnInit() {
+    this.destinos = this.DestinoApiModel.getAll();
 
+    this.DestinoApiModel.getPreferidoObservable().subscribe(destino => {
+      if (destino) {
+        this.ultimaSuscripcion = (`Preferiste el destino: ${destino.nombre}`);
+        console.log(this.ultimaSuscripcion);
+      }
+    });
+  }
   agregado(d: DestinoViajes) {
     this.DestinoApiModel.add(d);
     this.onItemAdded.emit(d);
   }
 
   elegido(e: DestinoViajes) {
-    //desmarcar todos los demas en en array de elegidos
-    //this.destinos.forEach(function (x) {x.setSelected(false); });
-    //se marca el elegido
-    //d.setSelected(true);
     this.DestinoApiModel.getAll().forEach(x => x.setSelected(false));
     e.setSelected(true);
+    const nombreDestino = e.nombre;
+    this.ultimaSuscripcion = `Preferiste el destino: ${nombreDestino}`;
+  }
+
+  suscribirseALaNotificacion(viaje: string) {
+    this.DestinoApiModel.suscribirseAViaje(viaje);
   }
 }

@@ -9,6 +9,7 @@ import { DestinoViajes } from '../model/destino-viajes.model';
 })
 
 export class FormDestinoVieajesComponent {
+
   @Output() onItemAdded: EventEmitter<DestinoViajes>;
   fb: FormGroup;
 
@@ -23,6 +24,7 @@ export class FormDestinoVieajesComponent {
       console.log('cambio el formulario: ', form);
     });
   }
+
   guardar(nombre: string, url: string): boolean {
     let d = new DestinoViajes(nombre, url);
     this.onItemAdded.emit(d);
