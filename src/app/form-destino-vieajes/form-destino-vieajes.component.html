@@ -2,11 +2,15 @@
     <div class="form-group">
         <label for="nombre" class="style-labels">Nombre</label>
         <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Ingresar nombre..." />
-        <div *ngIf="!fb.controls['nombre'].valid">Nombre Invalido!</div>
-        <div *ngIf="fb.controls['nombre'].hasError('requerida')">Nombre Invalido!</div>
+        <div *ngIf="nombreControl?.hasError('required') && nombreControl?.touched">
+            El nombre es obligatorio.
+        </div>
+        <div *ngIf="nombreControl?.hasError('minlength') && nombreControl?.touched">
+            El nombre debe tener al menos 4 caracteres.
+        </div>
     </div>
     <ul>
-        <ul>
+        <ul *ngIf="!campoNombreVacio">
             <li *ngFor="let r of searchResults">{{r}}</li>
         </ul>
     </ul>
