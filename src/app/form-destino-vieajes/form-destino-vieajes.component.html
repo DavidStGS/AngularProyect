@@ -5,6 +5,11 @@
         <div *ngIf="!fb.controls['nombre'].valid">Nombre Invalido!</div>
         <div *ngIf="fb.controls['nombre'].hasError('requerida')">Nombre Invalido!</div>
     </div>
+    <ul>
+        <ul>
+            <li *ngFor="let r of searchResults">{{r}}</li>
+        </ul>
+    </ul>
 
     <div class="form-group">
         <label for="image-url" class="style-labels">Imagen Url</label>
