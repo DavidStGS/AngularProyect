@@ -1,5 +1,6 @@
 export class DestinoViajes {
-    private selected!: boolean;
+
+    private selected: boolean;
     public servicios: string[];
     id: any;
 
@@ -8,8 +9,8 @@ export class DestinoViajes {
         this.selected = false;
     }
 
-    isSelected(): boolean {
-        return this.selected;
+    isSelected() {
+        return this.selected; // Asegúrate de que este valor es true cuando el destino está seleccionado y false cuando no lo está.
     }
 
     setSelected(ifSelected: boolean) {

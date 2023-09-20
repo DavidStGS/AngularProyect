@@ -23,7 +23,7 @@
         <h6>Actividades</h6>
         <div>
             <ul>
-                {{ ultimaSuscripcion }}
+                <li *ngFor="let mensaje of ultimaSuscripcion">{{ mensaje }}</li>
             </ul>
         </div>
     </div>

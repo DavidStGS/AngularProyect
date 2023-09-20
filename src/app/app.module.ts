@@ -10,12 +10,27 @@ import { DestinoViajesComponent } from './destino-viajes/destino-viajes.componen
 import { DestinoComponent } from './destino/destino.component';
 import { FormDestinoVieajesComponent } from './form-destino-vieajes/form-destino-vieajes.component';
 import { DestinoApiModel } from './model/destino-api.model';
-
+import { DestinosViajesEffects, DestinosViajesState, initializeDestinosViajesState, reducerDestinosViajes } from './model/destino-viajes-state.model';
+import { StoreModule as NgRxStoreModule, ActionReducerMap } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 const rutas: Routes = [
   { path: '', component: ListaViajesComponent },
   { path: 'destinos', component: DestinoComponent }
 ]
+
+export interface AppState {
+  destinos: DestinosViajesState;
+}
+
+const reducers: ActionReducerMap<AppState> = {
+  destinos: reducerDestinosViajes
+};
+
+let reducersInitialState = {
+  destinos: initializeDestinosViajesState()
+}
 
 @NgModule({
   declarations: [
@@ -30,7 +45,13 @@ const rutas: Routes = [
     AppRoutingModule,
     RouterModule.forRoot(rutas),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgRxStoreModule.forRoot(
+      { destinos: reducerDestinosViajes },
+      { initialState: { destinos: initializeDestinosViajesState() } }
+    ),
+
+    EffectsModule.forRoot([DestinosViajesEffects])
   ],
   providers: [
     DestinoApiModel
