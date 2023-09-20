@@ -16,7 +16,7 @@ export class FormDestinoVieajesComponent implements OnInit {
 
   searchResults: string[] = [];
 
-  campoNombreVacio: boolean = true; // Inicializamos como true
+  campoNombreVacio: boolean = true;
 
   get nombreControl(): AbstractControl | null {
     return this.fb.get('nombre');
@@ -30,7 +30,7 @@ export class FormDestinoVieajesComponent implements OnInit {
         debounceTime(200),
         distinctUntilChanged(),
         tap((text: string) => {
-          this.campoNombreVacio = text.trim() === ''; // Verificamos si el campo está vacío
+          this.campoNombreVacio = text.trim() === '';
         }),
         filter(text => text.length > 4),
         switchMap(() => ajax<string[]>('/assets/datos.json'))
