@@ -17,8 +17,16 @@
             </span>
             </li>
         </ul>
+        <div>
+            <a href="#"><i class="materal-icons md-18">thumb_up</i></a>
+            <a href="#"><i class="materal-icons md-18">thumb_down</i></a>
+            <span>{{destino.votes}}</span>
+        </div>
+        <hr class="mb-5">
         <a href="#" class="btn-card" (click)="ir()">Read</a>
+
         <a href="/destinos" class="ms-2">Ver destino</a>
+
         <span *ngIf="destino.isSelected()" class="badge bg-primary ms-2 style-prefers">
             <span ngNonBindable>Preferido</span>
         </span>

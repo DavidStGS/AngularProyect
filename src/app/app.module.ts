@@ -47,10 +47,9 @@ let reducersInitialState = {
     FormsModule,
     ReactiveFormsModule,
     NgRxStoreModule.forRoot(
-      { destinos: reducerDestinosViajes },
-      { initialState: { destinos: initializeDestinosViajesState() } }
+      reducers,
+      { initialState: reducersInitialState }
     ),
-
     EffectsModule.forRoot([DestinosViajesEffects])
   ],
   providers: [

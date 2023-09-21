@@ -22,7 +22,8 @@ export const initializeDestinosViajesState = function () {
 export enum DestinosViajesActionTypes {
     NUEVO_DESTINO = '[Destinos Viajes] Nuevo',
     ELEGIDO_FAVORITO = '[Destinos Viajes] Favorito',
-
+    VOTE_UP = '[Destinos Viajes] Vote Up',
+    VOTE_DOWN = '[Destinos Viajes] Vote Down',
 }
 
 export class NuevoDestinoAction implements Action {
@@ -35,7 +36,16 @@ export class ElegidoFavoritoAction implements Action {
     constructor(public destino: DestinoViajes) { }
 }
 
-export type DestinosViajesActions = NuevoDestinoAction | ElegidoFavoritoAction;
+export class VoteUpAction implements Action {
+    type = DestinosViajesActionTypes.VOTE_UP;
+    constructor(public destino: DestinoViajes) { }
+}
+
+export class VoteDownAction implements Action {
+    type = DestinosViajesActionTypes.VOTE_DOWN;
+    constructor(public destino: DestinoViajes) { }
+}
+export type DestinosViajesActions = NuevoDestinoAction | ElegidoFavoritoAction | VoteUpAction | VoteDownAction;
 
 //reducers
 export function reducerDestinosViajes(
@@ -61,6 +71,16 @@ export function reducerDestinosViajes(
         default: {
             return state
         }
+        // case DestinosViajesActionTypes.VOTE_UP: {
+        //     const d: DestinoViajes = (action as VoteUpAction).destino;
+        //     d.voteUp();
+        //     return { ...state };
+        // }
+        // case DestinosViajesActionTypes.VOTE_DOWN: {
+        //     const d: DestinoViajes = (action as VoteDownAction).destino;
+        //     d.voteDown();
+        //     return { ...state };
+        // }
 
     }
 }
