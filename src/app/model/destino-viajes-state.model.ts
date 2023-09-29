@@ -1,65 +1,77 @@
-import { Injectable } from "@angular/core";
-import { DestinoViajes } from "./destino-viajes.model";
-import { Actions, ofType, createEffect } from "@ngrx/effects";
-import { map } from "rxjs/operators";
-import { Observable, of } from "rxjs";
-import { Action, ActionReducer } from "@ngrx/store";
+import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { DestinoViajes } from './destino-viajes.model';
+import { HttpClientModule } from '@angular/common/http';
 
-export interface DestinosViajesState {
+
+//estados
+
+export interface DestinosviajesState {
     items: DestinoViajes[];
     loading: boolean;
     favorito: DestinoViajes;
 }
-
-export const initializeDestinosViajesState = function () {
+export function intializeDestinosviajesState() {
     return {
         items: [],
         loading: false,
         favorito: null
     };
+};
+///////acciones
+export enum DestinosviajesActionTypes {
+    NUEVO_DESTINO = '[Destinos viajes] Nuevo',
+    ELEGIDO_FAVORITO = '[Destinos viajes] Favorito',
+    VOTE_UP = '[Destinos viajes] Vote Up',
+    VOTE_DOWN = '[Destinos viajes] Vote Down',
+    INIT_MY_DATA = '[Destinos Viajes] Init My Data'
 }
-
-export enum DestinosViajesActionTypes {
-    NUEVO_DESTINO = '[Destinos Viajes] Nuevo',
-    ELEGIDO_FAVORITO = '[Destinos Viajes] Favorito',
-    VOTE_UP = '[Destinos Viajes] Vote Up',
-    VOTE_DOWN = '[Destinos Viajes] Vote Down',
-}
-
 export class NuevoDestinoAction implements Action {
-    type = DestinosViajesActionTypes.NUEVO_DESTINO;
+    type = DestinosviajesActionTypes.NUEVO_DESTINO;
     constructor(public destino: DestinoViajes) { }
-}
 
+}
 export class ElegidoFavoritoAction implements Action {
-    type = DestinosViajesActionTypes.ELEGIDO_FAVORITO;
+    type = DestinosviajesActionTypes.ELEGIDO_FAVORITO;
     constructor(public destino: DestinoViajes) { }
 }
-
 export class VoteUpAction implements Action {
-    type = DestinosViajesActionTypes.VOTE_UP;
+    type = DestinosviajesActionTypes.VOTE_UP;
     constructor(public destino: DestinoViajes) { }
 }
-
 export class VoteDownAction implements Action {
-    type = DestinosViajesActionTypes.VOTE_DOWN;
+    type = DestinosviajesActionTypes.VOTE_DOWN;
     constructor(public destino: DestinoViajes) { }
 }
-export type DestinosViajesActions = NuevoDestinoAction | ElegidoFavoritoAction | VoteUpAction | VoteDownAction;
-
-//reducers
-export function reducerDestinosViajes(
-    state: DestinosViajesState,
-    action: DestinosViajesActions
-): DestinosViajesState {
+export class InitMyDataAction implements Action {
+    type = DestinosviajesActionTypes.INIT_MY_DATA;
+    constructor(public destinos: string[]) { }
+}
+export type DestinosviajesActions = NuevoDestinoAction | ElegidoFavoritoAction
+    | VoteUpAction | VoteDownAction | InitMyDataAction;
+//////////reducers
+export function reducerDestinosviajes(
+    state: DestinosviajesState,
+    action: DestinosviajesActions
+): DestinosviajesState {
     switch (action.type) {
-        case DestinosViajesActionTypes.NUEVO_DESTINO: {
+        case DestinosviajesActionTypes.INIT_MY_DATA: {
+            const destinos: string[] = (action as InitMyDataAction).destinos;
+            return {
+                ...state,
+                items: destinos.map((d) => new DestinoViajes(d, ''))
+            };
+        }
+        case DestinosviajesActionTypes.NUEVO_DESTINO: {
             return {
                 ...state,
                 items: [...state.items, (action as NuevoDestinoAction).destino]
             };
         }
-        case DestinosViajesActionTypes.ELEGIDO_FAVORITO: {
+        case DestinosviajesActionTypes.ELEGIDO_FAVORITO: {
             state.items.forEach(x => x.setSelected(false));
             const fav: DestinoViajes = (action as ElegidoFavoritoAction).destino;
             fav.setSelected(true);
@@ -68,30 +80,30 @@ export function reducerDestinosViajes(
                 favorito: fav
             };
         }
-        default: {
-            return state
+        case DestinosviajesActionTypes.VOTE_UP: {
+            const d: DestinoViajes = (action as VoteUpAction).destino;
+            d.voteUp();
+            return { ...state };
+
         }
-        // case DestinosViajesActionTypes.VOTE_UP: {
-        //     const d: DestinoViajes = (action as VoteUpAction).destino;
-        //     d.voteUp();
-        //     return { ...state };
-        // }
-        // case DestinosViajesActionTypes.VOTE_DOWN: {
-        //     const d: DestinoViajes = (action as VoteDownAction).destino;
-        //     d.voteDown();
-        //     return { ...state };
-        // }
+        case DestinosviajesActionTypes.VOTE_DOWN: {
+            const d: DestinoViajes = (action as VoteDownAction).destino;
+            d.voteDown();
+            return { ...state };
 
+        }
     }
-}
+    return state;
 
-//effects
+}
 @Injectable()
-export class DestinosViajesEffects {
-    nuevoAgregado$: Observable<Action> = this.actions$.pipe(
-        ofType(DestinosViajesActionTypes.NUEVO_DESTINO),
-        map((action: NuevoDestinoAction) => new ElegidoFavoritoAction(action.destino))
-    );
+export class DestinosviajesEffects {
+    nuevoAgregado$ = createEffect(() => this.actions$.pipe(
+        ofType(DestinosviajesActionTypes.NUEVO_DESTINO),
+        switchMap((action: NuevoDestinoAction) => [
+            new ElegidoFavoritoAction(action.destino)
+        ])
+    ));
+
     constructor(private actions$: Actions) { }
 }
-

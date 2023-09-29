@@ -10,27 +10,28 @@ import { DestinoViajesComponent } from './destino-viajes/destino-viajes.componen
 import { DestinoComponent } from './destino/destino.component';
 import { FormDestinoVieajesComponent } from './form-destino-vieajes/form-destino-vieajes.component';
 import { DestinoApiModel } from './model/destino-api.model';
-import { DestinosViajesEffects, DestinosViajesState, initializeDestinosViajesState, reducerDestinosViajes } from './model/destino-viajes-state.model';
 import { StoreModule as NgRxStoreModule, ActionReducerMap } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { DestinosviajesEffects, DestinosviajesState, intializeDestinosviajesState, reducerDestinosviajes } from './model/destino-viajes-state.model';
 
 const rutas: Routes = [
   { path: '', component: ListaViajesComponent },
   { path: 'destinos', component: DestinoComponent }
 ]
 
+//redux init
 export interface AppState {
-  destinos: DestinosViajesState;
+  destinos: DestinosviajesState;
 }
-
+///redux fin init
 const reducers: ActionReducerMap<AppState> = {
-  destinos: reducerDestinosViajes
+  destinos: reducerDestinosviajes
 };
 
-let reducersInitialState = {
-  destinos: initializeDestinosViajesState()
-}
+const reducersInitialState = {
+  destinos: intializeDestinosviajesState()
+};
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ let reducersInitialState = {
       reducers,
       { initialState: reducersInitialState }
     ),
-    EffectsModule.forRoot([DestinosViajesEffects])
+    EffectsModule.forRoot([DestinosviajesEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: false })
   ],
   providers: [
     DestinoApiModel
